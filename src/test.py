@@ -25,6 +25,7 @@ from tensorflow.keras import Model
 from keras.preprocessing import image
 ##################################################################################################
 
+
 def getClassLabel(classes):
     
     label = "unknown"
@@ -47,7 +48,7 @@ def getClassLabel(classes):
 
 model_path = "model/"
 
-model = tf.keras.models.load_model('model\\players_model\\')
+#model = tf.keras.models.load_model('model\\players_model\\')
 model = tf.keras.models.load_model(model_path+'players_model')
 
 # Check its architecture
