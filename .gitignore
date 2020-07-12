@@ -1,0 +1,8 @@
+# Don't track content of these folders
+node_modules/
+samples/ronaldovsmessi.mp4
+model/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5
+
+
+# Compiled source #
+###################
