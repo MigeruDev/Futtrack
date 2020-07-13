@@ -47,11 +47,11 @@ def getClassLabel(classes):
 
 model_path = "model/"
 
-model = tf.keras.models.load_model('model\\players_model\\')
+#model = tf.keras.models.load_model('model\\players_model\\')
 model = tf.keras.models.load_model(model_path+'players_model')
 
 # Check its architecture
-model.summary()
+#model.summary()
 
 #----------------------------------------- Testing the model -----------------------------------#
 
@@ -128,3 +128,4 @@ while True:
             break
 # Release the VideoCapture object
 cap.release()
+cv2.destroyAllWindows()

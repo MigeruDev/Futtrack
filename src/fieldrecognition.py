@@ -5,26 +5,38 @@ from matplotlib.pyplot import imshow
 from matplotlib import pyplot as plt
 
 # To use a video file as input 
-cap = cv2.VideoCapture('samples/ronaldovsmessi.mp4')
+cap = cv2.VideoCapture('samples/golvar3_TRIM.mp4')
 
 while True:
     # Read the frame
     _, img = cap.read()
-    # Convert to grayscale
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    # UMBRALES VERDE
+    lower_green = np.array([29, 85, 11]) #40,40,40
+    upper_green = np.array([64, 255, 255]) #72, 255, 255
+    
+    # Definimos la mascara para la cancha
+    mask = cv2.inRange(hsv, lower_green, upper_green)
+    # Se hace aplica la máscara
+    res = cv2.bitwise_and(img, img, mask=mask)
+    # convertir de hsv a escala de grises
+    res_bgr = cv2.cvtColor(res, cv2.COLOR_HSV2BGR)
+    res_gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
 
     kernel_size = 5
-    blur_gray = cv2.GaussianBlur(gray,(kernel_size, kernel_size),0)
+    blur_gray = cv2.GaussianBlur(res_gray,(kernel_size, kernel_size),0)
 
-    low_threshold = 126
-    high_threshold = 308
+    low_threshold = 120 #118
+    high_threshold = 308 #308
     edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
     
-    rho = 0.95  # distance resolution in pixels of the Hough grid
+    cv2.imshow('img_', edges)
+    
+    rho = 1  # distance resolution in pixels of the Hough grid
     theta = np.pi / 180  # angular resolution in radians of the Hough grid
-    threshold = 200  # minimum number of votes (intersections in Hough grid cell)
-    min_line_length = 500  # minimum number of pixels making up a line
-    max_line_gap = 100  # maximum gap in pixels between connectable line segments
+    threshold = 100  # minimum number of votes (intersections in Hough grid cell)
+    min_line_length = 250  # minimum number of pixels making up a line
+    max_line_gap = 30  # maximum gap in pixels between connectable line segments
     line_image = np.copy(img) * 0  # creating a blank to draw lines on
 
     # Run Hough on edge detected image
@@ -55,3 +67,4 @@ while True:
 
 # Release the VideoCapture object
 cap.release()
+cv2.destroyAllWindows()
